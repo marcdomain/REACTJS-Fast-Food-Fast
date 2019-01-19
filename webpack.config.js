@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './views/index.js',
+  entry: './client/app.js',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -15,6 +15,13 @@ module.exports = {
     }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
+    }, {
+      test: /\.(png|jpg)$/,
+      use: [
+        {
+          loader: 'file-loader'
+        }
+      ]
     }]
   },
   devtool: 'cheap-module-eval-source-map',
