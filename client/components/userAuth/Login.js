@@ -88,11 +88,9 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    displayMessage: state.auths.response.message,
-    displayMessageStatus: state.auths.response.status
-  };
-};
+const mapStateToProps = state => ({
+  displayMessage: state.auths.response.message,
+  displayMessageStatus: state.auths.response.status
+});
 
 export default connect(mapStateToProps, { loginUser })(Login);

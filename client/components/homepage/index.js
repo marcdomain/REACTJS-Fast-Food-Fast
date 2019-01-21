@@ -19,7 +19,7 @@ class Homepage extends Component {
 
   render() {
     return (
-      <div className="welcome">
+      <div className="welcome" id="welcome">
         <div className="welcome-content">
           <Container toggleAuth={this.toggleAuth} />
         </div>

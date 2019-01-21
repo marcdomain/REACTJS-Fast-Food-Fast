@@ -11,4 +11,4 @@ const app = (
   </Provider>
 );
 
-render(app, document.getElementById('welcome'));
+render(app, document.getElementById('app'));

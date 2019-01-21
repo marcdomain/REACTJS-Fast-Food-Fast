@@ -1,13 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Homepage from '../components/homepage';
+import AvailableFood from '../components/AvailableFood';
 
 const AppRouter = () => (
   <BrowserRouter>
-    <div>
-      <Route path="/" component={Homepage} exact />
-      <Route path="/menu" />
-    </div>
+    <Switch>
+      <Route exact path="/" component={Homepage} />
+      <Route path="/menu" component={AvailableFood} />
+    </Switch>
   </BrowserRouter>
 );
 
