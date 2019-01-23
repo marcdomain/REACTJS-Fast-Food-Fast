@@ -330,7 +330,7 @@ nav ul li a {
   display: flex;
   max-width: 1250px;
   justify-content: space-between;
-  margin: 25px auto;
+  margin: 60px auto;
   flex-wrap: wrap;
   padding: 0 10px;
   transition: 0.5s;
@@ -398,11 +398,6 @@ div.menuName {
   box-shadow: 1px 1px 2px 1px #1a1a1a;
 }
 
-/* .quantityform {
-  margin-top: 10px;
-  display: none;
-} */
-
 form select {
   width: 60px;
   padding: 3px 5px;
@@ -427,10 +422,11 @@ form input[type='submit'].input {
 .input {
   outline: none;
 }
-
+/* /////////////////////////////////////////////////////////////////////// */
 .toggle-cart {
-  background: gray;
-  display: none;
+  /* background: #52bad5; */
+  background: rgba(42, 108, 122, 0.3);
+  /* display: none; */
   width: 150px;
   height: 35px;
   text-align: center;
@@ -451,7 +447,7 @@ form input[type='submit'].input {
   cursor: pointer;
   float: right;
   font-size: 20px;
-  background: #e65c00;
+  background: #2091ad;
   font-weight: bold;
 }
 
@@ -461,26 +457,25 @@ form input[type='submit'].input {
   top: 0;
   height: 100%;
   background: rgba(36, 40, 38, 0.5);
-  display: none;
+  /* display: none; */
   position: fixed;
   height: 100%;
 }
 
 .cart-dashboard {
   background: #52bad5;
-  display: none;
+  /* display: none; */
   position: fixed;
   top: 60px;
   width: 310px;
   z-index: 1;
   height: 91.2vh;
-  /* min-height: 96.5vh; */
   padding: 20px 5px;
   box-shadow: 2px 2px 5px 2px gray;
   transition: 0.5s;
   transition-timing-function: ease-out;
 }
-
+/* ////////////////////////////////////////////////////////////////////// */
 .cart-items {
   display: flex;
   flex-direction: column;

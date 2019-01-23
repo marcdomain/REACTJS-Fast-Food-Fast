@@ -1,18 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo.png';
 import getAvailableFood from '../actions/availableFood';
+import { setCartInStorage, getCartInStorage } from '../utils';
+import PlaceOrder from './PlaceOrder';
 
 class AvailableFood extends Component {
   state = {
-    items: []
+    quantity: '',
   }
 
   componentWillMount() {
     this.setState({ items: this.props.items });
     this.props.getAvailableFood();
+  }
+
+  onChangeInput = event => this.setState({ [event.target.name]: event.target.value });
+
+  addToCart = (event, itemId, itemPrice, itemName, itemImg) => {
+    event.preventDefault();
+    const cartItem = {};
+    cartItem.menuId = itemId;
+    cartItem.quantity = this.state.quantity;
+    cartItem.price = itemPrice;
+    cartItem.menu = itemName;
+    cartItem.imageUrl = itemImg;
+    cartItem.amount = cartItem.quantity * cartItem.price;
+
+    const updateCartList = (newObj, list) => {
+      const cartList = list.slice();
+      let cartIndex = -1;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].menuId === newObj.menuId) {
+          cartIndex = i;
+          break;
+        }
+      }
+      if (cartIndex !== -1) {
+        cartList[cartIndex] = newObj;
+        toastr.success('Item updated');
+      } else {
+        cartList.push(newObj);
+        toastr.success('New item added to cart');
+      }
+      return cartList;
+    };
+
+    if (!JSON.parse(getCartInStorage('orderItems'))) {
+      setCartInStorage(JSON.stringify([cartItem]));
+      toastr.success('New item added to cart');
+      return;
+    }
+    const cartUpdate = JSON.parse(getCartInStorage('orderItems'));
+    const newCartList = updateCartList(cartItem, cartUpdate);
+
+    setCartInStorage(JSON.stringify(newCartList));
   }
 
   render() {
@@ -58,7 +103,6 @@ class AvailableFood extends Component {
         </header>
 
         <div className="foodContainer">
-          {console.log('PROPS', !this.props.items.length ? 'loading' : this.props.items)}
           {
             !this.props.items.length ? 'loading'
               : this.props.items.map(item => (
@@ -69,8 +113,11 @@ class AvailableFood extends Component {
                     <div className="description">{item.description}</div>
                     <div className="orderAction">
                       <div className="quantityForm">
-                        <form>
-                          <select id="quantity8" className="input" max="32">
+                        <form
+                          onSubmit={e => this.addToCart(e, item.id, item.price, item.menu, item.imageurl)}
+                        >
+                          <select className="input" name="quantity" onChange={this.onChangeInput}>
+                            <option value="0" disabled defaultValue>0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -82,7 +129,7 @@ class AvailableFood extends Component {
                             <option value="9">9</option>
                             <option value="10">10</option>
                           </select>
-                          <input type="submit" id="submit8" value="add" className="input send" />
+                          <input type="submit" value="add" className="input send" />
                         </form>
                       </div>
                     </div>
@@ -92,13 +139,19 @@ class AvailableFood extends Component {
               ))
           }
         </div>
+        <PlaceOrder />
       </div>
     );
   }
 }
 
+AvailableFood.defaultProps = {
+  items: [],
+};
+
 AvailableFood.propTypes = {
   getAvailableFood: PropTypes.func.isRequired,
+  items: PropTypes.oneOfType([PropTypes.array]),
 };
 
 const mapStateToProps = state => ({
