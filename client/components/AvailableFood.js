@@ -7,6 +7,7 @@ import logo from '../img/logo.png';
 import getAvailableFood from '../actions/availableFood';
 import { setCartInStorage, getCartInStorage } from '../utils';
 import PlaceOrder from './PlaceOrder';
+import '../styles/homepage.css';
 
 class AvailableFood extends Component {
   state = {

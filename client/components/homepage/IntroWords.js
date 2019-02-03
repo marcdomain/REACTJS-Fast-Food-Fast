@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../../styles/homepage.css';
 
 class IntroWords extends Component {
   componentDidMount() {
@@ -23,20 +22,26 @@ class IntroWords extends Component {
     ];
 
     // open on window load (0 sec)
+    const myQuotes = document.querySelector('.words');
     words.map((v, i, arr) => {
-      document.querySelector('.words').innerHTML = arr[Math.floor(Math.random() * arr.length)].word;
+      if (myQuotes) {
+        myQuotes.innerHTML = arr[Math.floor(Math.random() * arr.length)].word;
+      }
       return false;
     });
 
     // start after 10 sec
     words.map((v, i, arr) => {
-      setInterval(() => {
-        document.querySelector('.words').innerHTML = arr[Math.floor(Math.random() * arr.length)].word;
-      }, 10000);
+      if (myQuotes) {
+        setInterval(() => {
+          myQuotes.innerHTML = arr[Math.floor(Math.random() * arr.length)].word;
+        }, 10000);
+      }
       return false;
     });
 
     const bgColor = document.getElementById('progress-color');
+    const progColor = document.getElementById('progress-color');
     let width = 1;
     // repeat every 10 sec
     setInterval(() => {
@@ -44,8 +49,12 @@ class IntroWords extends Component {
         width = 1;
       } else {
         width += 1;
-        document.getElementById('progress-color').style.backgroundColor = '#52bad5';
-        bgColor.style.width = `${width}%`;
+        if (progColor) {
+          progColor.style.backgroundColor = '#52bad5';
+        }
+        if (bgColor) {
+          bgColor.style.width = `${width}%`;
+        }
       }
     }, 100);
   };

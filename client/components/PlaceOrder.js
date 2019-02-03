@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import {
   getCartInStorage, decoded, setCartInStorage, removeCartInStorage
 } from '../utils';
-import placeOrderAction from '../actions/cartAction';
+import placeOrderAction from '../actions/placeOrder';
 
 class PlaceOrder extends Component {
   state = {
@@ -49,6 +49,10 @@ class PlaceOrder extends Component {
 
     this.setState({ amount: foundOrder.quantity * foundOrder.price, total });
     toastr.success('Item updated');
+  }
+
+  onKeyUpEvent = (event) => {
+    this.setState({ deliveryLocation: event.target.value });
   }
 
   submitOrder = (event) => {
@@ -145,7 +149,7 @@ class PlaceOrder extends Component {
                   minLength="5"
                   maxLength="100"
                   name="deliveryLocation"
-                  onChange={this.onChangeInput}
+                  onChange={this.onKeyUpEvent}
                 />
                 <br />
                 <input type="submit" value="Submit Order" id="cartBtn" />
