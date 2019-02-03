@@ -1,13 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import getOrderHistory from '../actions/orderHistory';
 import { decoded } from '../utils';
 import '../styles/orders.css';
+import deleteOrder from '../actions/deleteOrder';
 
 class OrderHistory extends Component {
+  state = {
+    deleteModal: false
+  }
+
   componentDidMount() {
     const userId = decoded.payload.id;
     this.props.getOrderHistory(userId);
+  }
+
+  showDeleteModal = () => {
+    this.setState({ deleteModal: true });
+  }
+
+  removeModal = (event) => {
+    if (event.target === event.currentTarget) {
+      this.setState({ deleteModal: false });
+    }
+  }
+
+  deleteUserOrder = (event, orderId) => {
+    event.preventDefault();
+    this.props.deleteOrder(orderId);
+    toastr.success('Order deleted successfully');
+    this.setState({ deleteModal: false });
+    setTimeout(() => {
+      const userId = decoded.payload.id;
+      this.props.getOrderHistory(userId);
+    }, 50);
   }
 
   render() {
@@ -74,7 +101,28 @@ class OrderHistory extends Component {
                         {order.total}
                       </td>
                       <td>
-                        {order.status}
+                        <button
+                          type="submit"
+                          onClick={this.showDeleteModal}
+                          style={{ background: 'red', boxShadow: '1px 2px 1px 0 gray', padding: '3px' }}
+                        >
+                          delete
+                        </button>
+                        <div
+                          className="modal delete-modal"
+                          style={{ display: this.state.deleteModal ? 'block' : 'none' }}
+                          onClick={this.removeModal}
+                        >
+                          <div className="confirm-form">
+                            <form
+                              id="delete-form"
+                              onSubmit={event => this.deleteUserOrder(event, order.id)}
+                            >
+                              <div className="confirm-text">Sure you want to delete?</div>
+                              <input type="submit" value="delete" />
+                            </form>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -102,4 +150,4 @@ const mapStateToProps = state => ({
   orders: state.orderHistory,
 });
 
-export default connect(mapStateToProps, { getOrderHistory })(OrderHistory);
+export default connect(mapStateToProps, { getOrderHistory, deleteOrder })(OrderHistory);

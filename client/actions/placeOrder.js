@@ -13,7 +13,6 @@ const placeOrderAction = order => (dispatch) => {
   })
     .then(res => res.json())
     .then((data) => {
-      console.log('ORDER DATA', data);
       dispatch({ type: PLACE_ORDER, payload: data });
     })
     .catch((error) => {

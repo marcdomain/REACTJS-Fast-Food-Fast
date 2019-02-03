@@ -1,7 +1,8 @@
-import { ORDER_HISTORY } from '../actions/types';
+import { ORDER_HISTORY, DELETE_ORDER } from '../actions/types';
 
 const initialState = {
-  response: []
+  response: [],
+  deleteResonse: []
 };
 
 export default (state = initialState, action) => {
@@ -10,6 +11,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         response: action.payload
+      };
+    }
+    case DELETE_ORDER: {
+      return {
+        ...state,
+        deleteResonse: action.payload
       };
     }
     default:
