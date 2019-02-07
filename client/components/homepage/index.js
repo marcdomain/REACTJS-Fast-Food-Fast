@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Container from './Container';
 import UserAuth from '../userAuth';
+import { getToken } from '../../utils';
 import '../../styles/homepage.css';
 import toggleMessage from '../../actions/toggleMessage';
 
 class Homepage extends Component {
   state = {
     authModalName: false,
+  }
+
+  componentDidMount() {
+    if (getToken()) {
+      this.props.history.push('/menu');
+    }
   }
 
   toggleAuth = (event) => {
@@ -29,4 +37,4 @@ class Homepage extends Component {
   }
 }
 
-export default connect(null, { toggleMessage })(Homepage);
+export default withRouter(connect(null, { toggleMessage })(Homepage));

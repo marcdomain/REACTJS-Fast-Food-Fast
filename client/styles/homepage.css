@@ -35,7 +35,6 @@ header {
 
 nav {
   float: right;
-  margin-top: 5px;
   margin-right: 10px;
 }
 
@@ -780,23 +779,6 @@ input.deliver-to {
   }
 }
 
-@media(max-width: 475px) {
-  .username,
-  .logout {
-    display: none;
-  }
-
-  .signup-menu,
-  .login-menu {
-    display: none;
-  }
-
-  .dropdown {
-    display: inline-block;
-    float: right;
-  }
-}
-
 @media(max-width:460px) {
   .auth-btn input {
     width: 150px;
@@ -818,6 +800,22 @@ input.deliver-to {
 @media(max-width:380px) {
   .intro-words {
     padding-top: 5%;
+  }
+
+  .nav-bar .logo img {
+    height: 35px;
+    width: 20px;
+    margin-top: 12px;
+  }
+
+  .nav-bar .logo > a span {
+    font-weight: normal;
+    font-size: 15px;
+  }
+
+  nav ul li {
+    font-weight: normal;
+    font-size: 14px;
   }
 }
 

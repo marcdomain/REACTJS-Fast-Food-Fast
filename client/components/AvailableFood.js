@@ -5,7 +5,9 @@ import toastr from 'toastr';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo.png';
 import getAvailableFood from '../actions/availableFood';
-import { setCartInStorage, getCartInStorage } from '../utils';
+import {
+  setCartInStorage, getCartInStorage, getToken, removeToken, removeCartInStorage
+} from '../utils';
 import PlaceOrder from './PlaceOrder';
 import '../styles/homepage.css';
 
@@ -19,10 +21,20 @@ class AvailableFood extends Component {
     this.props.getAvailableFood();
   }
 
+  logoutUser = () => {
+    removeToken();
+    removeCartInStorage();
+    this.props.history.push('/');
+  }
+
   onChangeInput = event => this.setState({ [event.target.name]: event.target.value });
 
   addToCart = (event, itemId, itemPrice, itemName, itemImg) => {
     event.preventDefault();
+    if (!getToken()) {
+      toastr.error('Login to add order to cart');
+      return false;
+    }
     const cartItem = {};
     cartItem.menuId = itemId;
     cartItem.quantity = this.state.quantity;
@@ -72,31 +84,23 @@ class AvailableFood extends Component {
                 <span>Fast-Food-Fast</span>
               </Link>
             </div>
-            <nav>
+            <nav style={{ display: setTimeout(() => { getToken(); }, 50) ? 'flex' : 'none' }}>
               <ul>
-                <li className="username"><a href="orders.html">Profile</a></li>
-                <li className="logout">
-                  <a>Logout</a>
+                <li className="username">
+                  <Link to="/orders">Orders</Link>
                 </li>
-                <li className="dropdown">
-                  <span>&#8801;</span>
-                  <div className="dropdown-content">
-                    <a href="orders.html">Profile</a>
-                    <a href="#" className="logout">Logout</a>
-                  </div>
+                <li className="logout" onClick={this.logoutUser}>
+                  Logout
                 </li>
               </ul>
             </nav>
-            <nav className="guest">
+            <nav className="guest" style={{ display: setTimeout(() => { getToken(); }, 50) ? 'none' : 'flex' }}>
               <ul>
-                <li className="signup-menu"><a id="signup">Signup</a></li>
-                <li className="login-menu"><a id="login">Login</a></li>
-                <li className="dropdown">
-                  <span>&#8801;</span>
-                  <div className="dropdown-content">
-                    <a href="#" id="signupDrop">Signup</a>
-                    <a href="#" id="loginDrop">Login</a>
-                  </div>
+                <li className="signup-menu">
+                  <Link to="/">Signup</Link>
+                </li>
+                <li className="login-menu">
+                  <Link to="/">Login</Link>
                 </li>
               </ul>
             </nav>

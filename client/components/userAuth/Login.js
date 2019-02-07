@@ -1,31 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { loginUser } from '../../actions/auth';
 import AlertMessage from './Alert';
 
 class Login extends Component {
   state = {
     email: '',
-    password: '',
-    displayMessage: false
+    password: ''
   }
 
   onChangeInput = event => this.setState({ [event.target.name]: event.target.value });
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
+
     const {
       email, password
     } = this.state;
+
     const loginInputs = {
       email,
       password
     };
 
-    this.props.loginUser(loginInputs);
-    this.setState({ displayMessage: this.props.displayMessage });
-    this.setState({ displayMessage: this.props.displayMessageStatus });
+    await this.props.loginUser(loginInputs);
+
+    console.log('STATUS', this.props.displayMessageStatus);
+    console.log('MESSAGE', this.props.displayMessage);
+
+    this.props.history.push('/menu');
   }
 
   render() {
@@ -93,4 +98,4 @@ const mapStateToProps = state => ({
   displayMessageStatus: state.auths.response.status
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default withRouter(connect(mapStateToProps, { loginUser })(Login));

@@ -7,11 +7,11 @@ body {
   background: #efefef;
 }
 
-.dashboard {
+.orderlist-dashboard {
   height: 100vh;
 }
 
-.dashboard-content-bg div.page-title {
+.orderlist-dashboard-content-bg div.page-title {
   color: #1a1a1a;
   padding-top: 65px;
   text-align: center;
@@ -19,7 +19,7 @@ body {
   font-weight: bold;
 }
 
-.pageAlert {
+.orderlist-pageAlert {
   padding-top: 12px;
   height: 30px;
   text-align: center;
@@ -35,11 +35,11 @@ body {
   z-index: 10;
 }
 
-.padAlertDiv {
+.orderlist-padAlertDiv {
   margin-top: 70px;
 }
 
-.formAlert {
+.orderlist-formAlert {
   font-size: 16px;
   padding: 3px;
   float: left;
@@ -75,7 +75,7 @@ th.items-head {
   text-align: center;
 }
 
-.items {
+.orderlist-items {
   max-width: 350px;
   min-width: 250px;
   max-height: 80px;
@@ -96,12 +96,12 @@ tr.table-head {
   color: #fff;
 }
 
-.items tr:nth-child(even) {
+.orderlist-items tr:nth-child(even) {
   background: gray;
   color: #fff
 }
 
-.items tr:nth-child(odd) {
+.orderlist-items tr:nth-child(odd) {
   background: #f3f3f3;
   color: #000;
 }
@@ -133,15 +133,15 @@ tr.table-head {
   background: green;
 }
 
-.phone,
-.orderId {
+.orderlist-phone,
+.orderlist-orderId {
   cursor: pointer;
   text-decoration: underline;
   color: green;
   font-weight: bold;
 }
 
-.modal {
+.orderlist-modal {
   background: rgba(36, 40, 38, 0.8);
   min-height: 100%;
   width: 100%;
@@ -153,7 +153,7 @@ tr.table-head {
   z-index: 20;
 }
 
-.delete-modal {
+.orderlist-delete-modal {
   position: fixed;
 }
 
@@ -186,12 +186,12 @@ tr.table-head {
   margin-top: 20px;
 }
 
-.menu-image {
+.orderlist-menu-image {
   width: 100px;
   height: 70px;
 }
 
-.confirm-form {
+.orderlist-confirm-form {
   margin: 150px auto;
   max-width: 400px;
   border: #efefef 1px solid;
@@ -199,14 +199,19 @@ tr.table-head {
   padding: 5px;
 }
 
-.confirm-form form {
+.orderlist-confirm-form form {
   background: rgba(36, 40, 38, 0.8);
 }
 
-.confirm-form form input[type='submit'] {
+.orderlist-confirm-form form input[type='submit'] {
   background: red;
-  font-weight: bold;
   font-size: 15px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100px;
+  margin-bottom: 10px
 }
 
 .confirm-text {
@@ -214,14 +219,14 @@ tr.table-head {
   margin: 5px 0 50px 0;
 }
 
-.dashboard-content-bg div.page-title span {
+.orderlist-dashboard-content-bg div.page-title span {
   background: #e65c00;
   padding: 5px 10px;
   border-radius: 50%;
   cursor: pointer;
 }
 
-.cart-modal {
+.orderlist-cart-modal {
   width: 100%;
   left: 0;
   top: 0;
@@ -233,7 +238,7 @@ tr.table-head {
   z-index: 15;
 }
 
-.dashboard-menu {
+.orderlist-dashboard-menu {
   background: #52bad5;
   flex-direction: column;
   display: none;
@@ -246,7 +251,7 @@ tr.table-head {
   transition-timing-function: ease-out;
 }
 
-.toggle-menu {
+.orderlist-toggle-menu {
   background: #52bad5;
   width: 100px;
   height: 35px;
@@ -260,7 +265,7 @@ tr.table-head {
   z-index: 15;
 }
 
-.toggle-menu span {
+.orderlist-toggle-menu span {
   padding: 0 5px;
   background: #e65c00;
   border-radius: 5px;
@@ -270,25 +275,25 @@ tr.table-head {
   font-size: 25px;
 }
 
-.welcome {
+.orderlist-welcome {
   display: flex;
   justify-content: space-between;
   margin-top: 50px;
 }
 
-.welcome span {
+.orderlist-welcome span {
   color: #fff;
   font-weight: bold;
   font-size: 20px;
   padding-top: 25px;
 }
 
-.welcome span a {
+.orderlist-welcome span a {
   text-decoration: none;
   color: #fff;
 }
 
-.menu {
+.orderlist-menu {
   padding: 8px;
   background: green;
   color: #fff;
@@ -298,7 +303,7 @@ tr.table-head {
   text-align: center;
 }
 
-.menu-options {
+.orderlist-menu-options {
   display: flex;
   flex-direction: column;
   max-height: 60vh;
@@ -306,21 +311,21 @@ tr.table-head {
   overflow-y: auto;
 }
 
-.menu-options>a {
+.orderlist-menu-options>a {
   text-decoration: none;
   color: #fff;
 }
 
-.menu-options>a>div {
+.orderlist-menu-options>a>div {
   margin-top: 20px;
 }
 
-.menu-top img {
+.orderlist-menu-top img {
   height: 60px;
   width: 45px;
 }
 
-.add-food-item {
+.orderlist-add-food-item {
   display: flex;
   flex-direction: column;
   margin: 50px auto;
@@ -378,51 +383,6 @@ tr.table-head {
   100% {
     transform: rotate(360deg);
   }
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  background: rgba(102, 99, 88, 0.2);
-  ;
-  padding: 20px;
-  border-radius: 5px;
-}
-
-form label {
-  color: #fff;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-form input {
-  padding: 10px;
-  border-radius: 5px;
-  outline: none;
-  border: none;
-  margin-bottom: 10px;
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 2px 1px #595959;
-}
-
-form input[type='file'] {
-  background: #fff;
-  padding: 8px;
-}
-
-form input[type='submit'] {
-  background: green;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-form input[type='reset'] {
-  display: none;
-  background: red;
-  color: #fff;
-  font-weight: bold;
 }
 
 .sub-input {
@@ -489,7 +449,7 @@ form input[type='reset'] {
   box-shadow: 1px 1px 2px 1px #404040;
 }
 
-.tool-tip {
+.orderlist-tool-tip {
   display: none;
   color: #fff;
   position: absolute;
@@ -524,7 +484,7 @@ form input[type='reset'] {
 }
 
 @media(max-height: 330px) {
-  .confirm-form {
+  .orderlist-confirm-form {
     margin: 80px auto;
   }
 }

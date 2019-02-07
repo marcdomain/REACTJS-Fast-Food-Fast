@@ -8,7 +8,8 @@ import deleteOrder from '../actions/deleteOrder';
 
 class OrderHistory extends Component {
   state = {
-    deleteModal: false
+    deleteModal: false,
+    orderId: ''
   }
 
   componentDidMount() {
@@ -16,8 +17,8 @@ class OrderHistory extends Component {
     this.props.getOrderHistory(userId);
   }
 
-  showDeleteModal = () => {
-    this.setState({ deleteModal: true });
+  showDeleteModal = (id) => {
+    this.setState({ deleteModal: true, orderId: id });
   }
 
   removeModal = (event) => {
@@ -42,7 +43,7 @@ class OrderHistory extends Component {
 
     return (
       <div>
-        <div className="dashboard-content-bg">
+        <div className="orderlist-dashboard-content-bg">
           <div className="page-title all-orders">
             ORDER HISTORY
           </div>
@@ -69,7 +70,7 @@ class OrderHistory extends Component {
                       <td>{order.phone}</td>
                       <td>{order.location}</td>
                       <td height="50" width="350">
-                        <div className="items">
+                        <div className="orderlist-items">
                           <table>
                             <tbody>
                               {
@@ -103,20 +104,20 @@ class OrderHistory extends Component {
                       <td>
                         <button
                           type="submit"
-                          onClick={this.showDeleteModal}
+                          onClick={() => this.showDeleteModal(order.id)}
                           style={{ background: 'red', boxShadow: '1px 2px 1px 0 gray', padding: '3px' }}
                         >
                           delete
                         </button>
                         <div
-                          className="modal delete-modal"
+                          className="modal orderlist-delete-modal"
                           style={{ display: this.state.deleteModal ? 'block' : 'none' }}
                           onClick={this.removeModal}
                         >
-                          <div className="confirm-form">
+                          <div className="orderlist-confirm-form">
                             <form
                               id="delete-form"
-                              onSubmit={event => this.deleteUserOrder(event, order.id)}
+                              onSubmit={event => this.deleteUserOrder(event, this.state.orderId)}
                             >
                               <div className="confirm-text">Sure you want to delete?</div>
                               <input type="submit" value="delete" />

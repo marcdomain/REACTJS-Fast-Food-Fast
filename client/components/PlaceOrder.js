@@ -61,13 +61,26 @@ class PlaceOrder extends Component {
     const orderDetails = {
       userId: decoded.payload.id,
       orderItems: JSON.parse(getCartInStorage('orderItems')),
-      location: this.state.deliveryLocation
+      location: this.state.deliveryLocation || ''
     };
 
     this.props.placeOrderAction(orderDetails);
     toastr.success('Order was placed successully');
     this.setState({ showCart: false });
     removeCartInStorage('orderItems');
+  }
+
+  removeFromCart = (e, menuId) => {
+    e.preventDefault();
+    const myCart = JSON.parse(getCartInStorage('orderItems'));
+    console.log(myCart);
+    let index;
+    myCart.map((item, i, itemsArr) => {
+      index = itemsArr.indexOf(itemsArr.find(order => order.menuId === menuId));
+      return index;
+    });
+    myCart.splice(index, 1);
+    setCartInStorage(JSON.stringify(myCart));
   }
 
   render() {
@@ -90,7 +103,7 @@ class PlaceOrder extends Component {
                   <div className="newOrderDiv" key={cartItem.menuId}>
                     <img className="orderImageDiv" src={cartItem.imageUrl} alt="" />
                     <div className="orderDetails">
-                      <span className="delete">
+                      <span className="delete" onClick={e => this.removeFromCart(e, cartItem.menuId)}>
                         ✖
                         <span className="tool-tip">delete</span>
                       </span>

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/marcdomain/REACTJS-Fast-Food-Fast.svg?branch=develop)](https://travis-ci.org/marcdomain/REACTJS-Fast-Food-Fast) [![Coverage Status](https://coveralls.io/repos/github/marcdomain/REACTJS-Fast-Food-Fast/badge.svg?branch=develop)](https://coveralls.io/github/marcdomain/REACTJS-Fast-Food-Fast?branch=develop)
+
 # Fast-Food-Fast
 
 ## Description
