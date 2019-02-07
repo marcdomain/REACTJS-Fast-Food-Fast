@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { SignupNewUser } from '../../actions/auth';
 import AlertMessage from './Alert';
 
-class Signup extends Component {
+export class Signup extends Component {
   state = {
     username: '',
     email: '',
@@ -17,9 +18,11 @@ class Signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     const {
       username: name, email, phone, address, password
     } = this.state;
+
     const signupInputs = {
       name,
       email,
@@ -29,6 +32,8 @@ class Signup extends Component {
     };
 
     this.props.SignupNewUser(signupInputs);
+
+    this.props.history.push('/menu');
   }
 
   render() {
@@ -127,9 +132,9 @@ Signup.propTypes = {
   SignupNewUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   displayMessage: state.auths.response.message,
   displayMessageStatus: state.auths.response.status
 });
 
-export default connect(mapStateToProps, { SignupNewUser })(Signup);
+export default withRouter(connect(mapStateToProps, { SignupNewUser })(Signup));

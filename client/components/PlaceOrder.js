@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import {
-  getCartInStorage, decoded, setCartInStorage, removeCartInStorage
+  getCartInStorage, decoded, setCartInStorage, removeCartInStorage,
 } from '../utils';
-import placeOrderAction from '../actions/placeOrder';
+import placeOrderAction, { orderUpdate } from '../actions/placeOrder';
 
-class PlaceOrder extends Component {
+export class PlaceOrder extends Component {
   state = {
     deliveryLocation: '',
     total: '',
@@ -43,6 +43,8 @@ class PlaceOrder extends Component {
 
     setCartInStorage(JSON.stringify(cart));
 
+    this.props.orderUpdate(JSON.parse(getCartInStorage('orderItems')));
+
     const total = cart
       .map(item => item.amount)
       .reduce((a, b) => a + b);
@@ -58,16 +60,30 @@ class PlaceOrder extends Component {
   submitOrder = (event) => {
     event.preventDefault();
 
+    console.log('DECODED==>>>>>>>>>>>>>>>>>', decoded);
     const orderDetails = {
       userId: decoded.payload.id,
       orderItems: JSON.parse(getCartInStorage('orderItems')),
-      location: this.state.deliveryLocation
+      location: this.state.deliveryLocation || ''
     };
 
     this.props.placeOrderAction(orderDetails);
     toastr.success('Order was placed successully');
     this.setState({ showCart: false });
     removeCartInStorage('orderItems');
+  }
+
+  removeFromCart = (e, menuId) => {
+    e.preventDefault();
+    const myCart = JSON.parse(getCartInStorage('orderItems'));
+
+    let index;
+    myCart.map((item, i, itemsArr) => {
+      index = itemsArr.indexOf(itemsArr.find(order => order.menuId === menuId));
+      return index;
+    });
+    myCart.splice(index, 1);
+    setCartInStorage(JSON.stringify(myCart));
   }
 
   render() {
@@ -90,7 +106,7 @@ class PlaceOrder extends Component {
                   <div className="newOrderDiv" key={cartItem.menuId}>
                     <img className="orderImageDiv" src={cartItem.imageUrl} alt="" />
                     <div className="orderDetails">
-                      <span className="delete">
+                      <span className="delete" onClick={e => this.removeFromCart(e, cartItem.menuId)}>
                         ✖
                         <span className="tool-tip">delete</span>
                       </span>
@@ -152,7 +168,7 @@ class PlaceOrder extends Component {
                   onChange={this.onKeyUpEvent}
                 />
                 <br />
-                <input type="submit" value="Submit Order" id="cartBtn" />
+                <input className="submitAllOrder" type="submit" value="Submit Order" id="cartBtn" />
               </form>
             </div>
           </div>
@@ -167,4 +183,8 @@ PlaceOrder.placeOrderAction = {
   placeOrderAction: PropTypes.func.isRequired,
 };
 
-export default connect(null, { placeOrderAction })(PlaceOrder);
+export const mapStateToProps = state => ({
+  cartItems: state.placeOrder.updatedOrder
+});
+
+export default connect(mapStateToProps, { placeOrderAction, orderUpdate })(PlaceOrder);

@@ -5,3 +5,4 @@ export const AVAILABLE_FOOD = 'AVAILABLE_FOOD';
 export const PLACE_ORDER = 'PLACE_ORDER';
 export const ORDER_HISTORY = 'ORDER_HISTORY';
 export const DELETE_ORDER = 'DELETE_ORDER';
+export const ORDER_UPDATE = 'ORDER_UPDATE';

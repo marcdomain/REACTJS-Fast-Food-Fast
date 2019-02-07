@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
+import { Link, withRouter } from 'react-router-dom';
+import logo from '../img/logo.png';
 import getOrderHistory from '../actions/orderHistory';
-import { decoded } from '../utils';
+import {
+  decoded, getToken, removeCartInStorage, removeToken
+} from '../utils';
 import '../styles/orders.css';
 import deleteOrder from '../actions/deleteOrder';
 
-class OrderHistory extends Component {
+export class OrderHistory extends Component {
   state = {
-    deleteModal: false
+    deleteModal: false,
+    orderId: '',
   }
 
   componentDidMount() {
+    if (!getToken()) {
+      toastr.error('Login to view your orders');
+      return this.props.history.push('/menu');
+    }
+
     const userId = decoded.payload.id;
     this.props.getOrderHistory(userId);
+
+    if (!this.props.orders.response.length) {
+      toastr.error('Your order history is empty');
+      return this.props.history.push('/menu');
+    }
   }
 
-  showDeleteModal = () => {
-    this.setState({ deleteModal: true });
+  showDeleteModal = (id) => {
+    this.setState({ deleteModal: true, orderId: id });
   }
 
   removeModal = (event) => {
@@ -37,12 +52,40 @@ class OrderHistory extends Component {
     }, 50);
   }
 
+  logoutUser = () => {
+    removeToken();
+    removeCartInStorage();
+    this.setState({ isLoggedIn: false });
+    this.props.history.push('/');
+  }
+
   render() {
     const { orders } = this.props;
-
     return (
       <div>
-        <div className="dashboard-content-bg">
+
+        <header>
+          <div className="nav-bar">
+            <div className="logo">
+              <Link to="/">
+                <img src={logo} alt="" />
+                <span>Fast-Food-Fast</span>
+              </Link>
+            </div>
+            <nav style={{ display: 'flex' }}>
+              <ul>
+                <li className="username">
+                  <Link to="/orders">Orders</Link>
+                </li>
+                <li className="logout" onClick={this.logoutUser}>
+                  Logout
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+
+        <div className="orderlist-dashboard-content-bg">
           <div className="page-title all-orders">
             ORDER HISTORY
           </div>
@@ -60,73 +103,73 @@ class OrderHistory extends Component {
                 </tr>
               </tbody>
               {
-                orders.response.map((order) => {
-                  const date = new Date(order.orderdate).toLocaleString();
-                  return (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>{date}</td>
-                      <td>{order.phone}</td>
-                      <td>{order.location}</td>
-                      <td height="50" width="350">
-                        <div className="items">
-                          <table>
-                            <tbody>
-                              {
-                                order.orderitems.map(orderItem => (
-                                  <tr key={orderItem.menu}>
-                                    <td>
-                                      <strong>Meal: </strong>
-                                      &nbsp; &nbsp; &nbsp; &nbsp;
-                                      {orderItem.menu}
-                                      <br />
-                                      <strong>Quantity: </strong>
-                                      &nbsp;
-                                      {orderItem.quantity}
-                                      <br />
-                                      <strong>Amount: </strong>
-                                      &nbsp;
-                                      {orderItem.amount}
-                                      <br />
-                                    </td>
-                                  </tr>
-                                ))
-                              }
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                      <td>
-                          &#8358;
-                        {order.total}
-                      </td>
-                      <td>
-                        <button
-                          type="submit"
-                          onClick={this.showDeleteModal}
-                          style={{ background: 'red', boxShadow: '1px 2px 1px 0 gray', padding: '3px' }}
-                        >
-                          delete
-                        </button>
-                        <div
-                          className="modal delete-modal"
-                          style={{ display: this.state.deleteModal ? 'block' : 'none' }}
-                          onClick={this.removeModal}
-                        >
-                          <div className="confirm-form">
-                            <form
-                              id="delete-form"
-                              onSubmit={event => this.deleteUserOrder(event, order.id)}
+                    orders.response.map((order) => {
+                      const date = new Date(order.orderdate).toLocaleString();
+                      return (
+                        <tr key={order.id}>
+                          <td>{order.id}</td>
+                          <td>{date}</td>
+                          <td>{order.phone}</td>
+                          <td>{order.location}</td>
+                          <td height="50" width="350">
+                            <div className="orderlist-items">
+                              <table>
+                                <tbody>
+                                  {
+                                    order.orderitems.map(orderItem => (
+                                      <tr key={orderItem.menu}>
+                                        <td>
+                                          <strong>Meal: </strong>
+                                          &nbsp; &nbsp; &nbsp; &nbsp;
+                                          {orderItem.menu}
+                                          <br />
+                                          <strong>Quantity: </strong>
+                                          &nbsp;
+                                          {orderItem.quantity}
+                                          <br />
+                                          <strong>Amount: </strong>
+                                          &nbsp;
+                                          {orderItem.amount}
+                                          <br />
+                                        </td>
+                                      </tr>
+                                    ))
+                                  }
+                                </tbody>
+                              </table>
+                            </div>
+                          </td>
+                          <td>
+                              &#8358;
+                            {order.total}
+                          </td>
+                          <td>
+                            <button
+                              type="submit"
+                              onClick={() => this.showDeleteModal(order.id)}
+                              style={{ background: 'red', boxShadow: '1px 2px 1px 0 gray', padding: '3px' }}
                             >
-                              <div className="confirm-text">Sure you want to delete?</div>
-                              <input type="submit" value="delete" />
-                            </form>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
+                              delete
+                            </button>
+                            <div
+                              className="modal orderlist-delete-modal"
+                              style={{ display: this.state.deleteModal ? 'block' : 'none' }}
+                              onClick={this.removeModal}
+                            >
+                              <div className="orderlist-confirm-form">
+                                <form
+                                  id="delete-form"
+                                  onSubmit={event => this.deleteUserOrder(event, this.state.orderId)}
+                                >
+                                  <div className="confirm-text">Sure you want to delete?</div>
+                                  <input type="submit" value="delete" />
+                                </form>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
               }
             </table>
           </div>
@@ -150,4 +193,4 @@ const mapStateToProps = state => ({
   orders: state.orderHistory,
 });
 
-export default connect(mapStateToProps, { getOrderHistory, deleteOrder })(OrderHistory);
+export default withRouter(connect(mapStateToProps, { getOrderHistory, deleteOrder })(OrderHistory));
