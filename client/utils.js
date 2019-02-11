@@ -9,15 +9,12 @@ const setCartInStorage = orderItems => localStorage.setItem('orderItems', orderI
 const getCartInStorage = () => localStorage.getItem('orderItems');
 const removeCartInStorage = () => localStorage.removeItem('orderItems');
 
-let tokenKey;
-
-try {
-  tokenKey = jwtDecode(getToken());
-} catch (error) {
-  tokenKey = '';
-}
-
-const decoded = tokenKey;
+const decoded = () => {
+  if (getToken()) {
+    return jwtDecode(getToken());
+  }
+  return '';
+};
 
 export {
   baseURL,

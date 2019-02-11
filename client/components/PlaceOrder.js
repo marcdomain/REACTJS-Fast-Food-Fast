@@ -60,9 +60,8 @@ export class PlaceOrder extends Component {
   submitOrder = (event) => {
     event.preventDefault();
 
-    console.log('DECODED==>>>>>>>>>>>>>>>>>', decoded);
     const orderDetails = {
-      userId: decoded.payload.id,
+      userId: decoded().payload.id,
       orderItems: JSON.parse(getCartInStorage('orderItems')),
       location: this.state.deliveryLocation || ''
     };

@@ -791,6 +791,12 @@ input.deliver-to {
   }
 }
 
+@media(max-width: 420px) {
+  .auth-btn {
+    display: flex;
+  }
+}
+
 @media(max-width:410px) {
   h1.page-title {
     font-size: 20px;
@@ -822,12 +828,6 @@ input.deliver-to {
 @media(max-width: 365px) {
   .words {
     height: 80px;
-  }
-}
-
-@media(max-width:355px) {
-  .auth-btn input {
-    width: 120px;
   }
 }
 
@@ -882,17 +882,8 @@ input.deliver-to {
 }
 
 @media(max-width:275px) {
-  .auth-btn input {
-    display: block;
-    margin-bottom: 10px;
-  }
-
   .login {
     margin-left: 0;
-  }
-
-  .auth-btn {
-    margin-left: 25%
   }
 }
 
@@ -900,21 +891,11 @@ input.deliver-to {
   .words {
     height: 100px;
   }
-
-  .auth-btn {
-    margin-left: 22%
-  }
 }
 
 @media(max-width: 215px) {
   nav ul li {
     margin-left: 0;
-  }
-}
-
-@media(max-width: 200px) {
-  .auth-btn {
-    margin-left: 15%
   }
 }
 
@@ -945,10 +926,6 @@ input.deliver-to {
   .progress-bar {
     width: 80%;
     margin-left: 10%;
-  }
-
-  .auth-btn {
-    margin-top: 25%;
   }
 }
 

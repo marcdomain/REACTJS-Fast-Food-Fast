@@ -106,6 +106,13 @@ tr.table-head {
   color: #000;
 }
 
+.empty-order {
+  text-align: center;
+  font-size: 20px;
+  margin: 20px auto;
+  max-width: 300px;
+}
+
 .complete,
 .process,
 .cancel {
